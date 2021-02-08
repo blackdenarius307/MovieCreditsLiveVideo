@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Movie Credits</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Limelight&display=swap');
+
+        body {
+            height: 600px;
+            width: 400px;
+            margin: 0 auto;
+            background-color: #00b140;
+            overflow: hidden;
+        }
+
+        .content {
+            height: 100%;
+            text-align: center;
+            text-transform: uppercase;
+            font-family: 'LimeLight', serif;
+            -webkit-font-smoothing: antialiased;
+            color: #fff;
+            text-shadow: -1px 1px 2px #000,
+            1px 1px 2px #000,
+            1px -1px 0 #000,
+            -1px -1px 0 #000;
+            animation-name: roll-credits;
+            animation-timing-function: linear;
+            animation-duration: 30s;
+            animation-iteration-count: infinite;
+            /*Apparently, this gives better performance even when not doing anything if I used translate* in the animation*/
+            transform: translate3d(0, 0, 0);
+        }
+
+        @keyframes roll-credits {
+            from {
+                transform: translateY(100%);
+            }
+            to {
+                transform: translateY(-300%);
+            }
+        }
+
+        .movie {
+            font-size: 50px;
+            margin-bottom: 50px;
+        }
+
+        .credit {
+            margin-bottom: 30px;
+        }
+
+        .job {
+            font-size: 20px;
+        }
+
+        .name {
+            font-size: 35px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="content" id="content">
+    <div class="movie">A MEETING that should have been an email</div>
+    <div class="credit">
+        <div class="job">story</div>
+        <div class="name">David</div>
+    </div>
+    <div class="credit">
+        <div class="job">associate producer</div>
+        <div class="name">David M. Coe</div>
+    </div>
+    <div class="credit">
+        <div class="job">story</div>
+        <div class="name">David</div>
+    </div>
+</div>
+<script src="lib/handlebars-v4.7.6.js"></script>
+<script id="movie-template" type="text/x-handlebars-template">
+    <div class="movie">{{movie}}</div>
+    {{#each participants}}
+    <div class="credit">
+        <div class="job">{{job}}</div>
+        <div class="name">{{name}}</div>
+    </div>
+    {{/each}}
+</script>
+<script>
+    const template = Handlebars.compile(document.getElementById('movie-template').innerHTML);
+    const data = {movie: "A programming session with Zach", participants: [{name: "David", job: "Sound Design"}, {name: "Zach", job: "choreography"}, {name: "David", job: "Best Boy"}]};
+    document.getElementById('content').innerHTML = template(data);
+</script>
+</body>
+</html>
